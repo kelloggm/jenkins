@@ -257,6 +257,7 @@ public class CLI implements AutoCloseable {
                 throw new IOException("Handshaking failed: "+greeting);
             try {
                 byte[] secret = c.diffieHellman(false).generateSecret();
+                @SuppressWarnings("compliance") // TRUE POSITIVE: generated secret is being folded into a 128-bit key
                 SecretKey sessionKey = new SecretKeySpec(Connection.fold(secret,128/8),"AES");
                 c = c.encryptConnection(sessionKey,"AES/CFB8/NoPadding");
 

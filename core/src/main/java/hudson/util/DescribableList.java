@@ -251,7 +251,7 @@ public class DescribableList<T extends Describable<T>, D extends Descriptor<T>> 
      *
      * Serialization form is compatible with plain {@link List}.
      */
-    public static class ConverterImpl extends AbstractCollectionConverter {
+   /* public static class ConverterImpl extends AbstractCollectionConverter {
         CopyOnWriteList.ConverterImpl copyOnWriteListConverter;
 
         public ConverterImpl(Mapper mapper) {
@@ -285,7 +285,7 @@ public class DescribableList<T extends Describable<T>, D extends Descriptor<T>> 
                 throw x;
             }
         }
-    }
+    }*/
 
     private final static Logger LOGGER = Logger.getLogger(DescribableList.class.getName());
 }

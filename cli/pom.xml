@@ -20,6 +20,18 @@
 
   <dependencies>
     <dependency>
+      <groupId>org.checkerframework</groupId>
+      <artifactId>checker-qual</artifactId>
+      <version>2.5.8</version>
+    </dependency>
+    <dependency>
+      <groupId>com.amazonaws</groupId>
+      <artifactId>crypto-policy-compliance-checker</artifactId>
+      <version>1.0</version>
+      <scope>system</scope>
+      <systemPath>/Users/kelloggm/Research/compliance-ws/aws-crypto-policy-compliance-checker/build/libs/aws-crypto-policy-compliance-checker.jar</systemPath>
+    </dependency>
+    <dependency>
       <groupId>org.powermock</groupId>
       <artifactId>powermock-module-junit4</artifactId>
       <scope>test</scope>

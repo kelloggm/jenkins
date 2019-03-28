@@ -76,6 +76,9 @@ THE SOFTWARE.
   </issueManagement>
 
   <properties>
+    <!-- These properties will be set by the Maven Dependency plugin -->
+    <annotatedJdk>${org.checkerframework:jdk8:jar}</annotatedJdk>
+    
     <revision>2.162</revision>
     <changelist>-SNAPSHOT</changelist>
 
@@ -137,6 +140,42 @@ THE SOFTWARE.
 
   <dependencyManagement>
     <dependencies>
+
+      <dependency>
+	<groupId>com.amazonaws</groupId>
+	<artifactId>kms-compliance-checker</artifactId>
+	<version>1.0</version>
+	<scope>system</scope>
+	<systemPath>/Users/kelloggm/Research/compliance-ws/aws-kms-compliance-checker/build/libs/aws-kms-compliance-checker.jar</systemPath>
+      </dependency>
+      <dependency>
+	<groupId>com.amazonaws</groupId>
+	<artifactId>crypto-policy-compliance-checker</artifactId>
+	<version>1.0</version>
+	<scope>system</scope>
+	<systemPath>/Users/kelloggm/Research/compliance-ws/aws-crypto-policy-compliance-checker/build/libs/aws-crypto-policy-compliance-checker.jar</systemPath>
+      </dependency>
+      <!-- Annotations from the Checker Framework: nullness, interning, locking, ... -->
+      <dependency>
+	<groupId>org.checkerframework</groupId>
+	<artifactId>checker-qual</artifactId>
+	<version>2.5.8</version>
+      </dependency>
+      <dependency>
+	<groupId>org.checkerframework</groupId>
+	<artifactId>jdk8</artifactId>
+	<version>2.5.8</version>
+      </dependency>
+
+      <!-- 2.5.8 causing crashes in asSuperVisitor, so use locally built version-->
+      <dependency>
+	<groupId>org.checkerframework</groupId>
+	<artifactId>checker</artifactId>
+	<version>2.5.8</version>
+	<scope>system</scope>
+	<systemPath>/Users/kelloggm/jsr308/checker-framework/checker/dist/checker.jar</systemPath>
+      </dependency>
+      
       <dependency>
         <groupId>org.apache.ant</groupId>
         <artifactId>ant</artifactId>
@@ -325,6 +364,13 @@ THE SOFTWARE.
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-dependency-plugin</artifactId>
+	  <executions>
+	    <execution>
+              <goals>
+		<goal>properties</goal>
+              </goals>
+	    </execution>
+	  </executions>
         </plugin>
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
@@ -332,6 +378,37 @@ THE SOFTWARE.
           <configuration>
             <fork>true</fork>
             <compilerReuseStrategy>alwaysNew</compilerReuseStrategy>
+	    <compilerArguments>
+	      <Xmaxerrs>10000</Xmaxerrs>
+	      <Xmaxwarns>10000</Xmaxwarns>
+	      <Astubs>/Users/kelloggm/Research/compliance-ws/aws-kms-compliance-checker/OtherJavaCrypto.astub</Astubs>
+	    </compilerArguments>
+	    <annotationProcessorPaths>
+	      <path>
+		<groupId>org.checkerframework</groupId>
+		<artifactId>checker</artifactId>
+		<version>2.5.8</version>
+	      </path>
+	      <path>
+		<groupId>com.amazonaws</groupId>
+		<artifactId>kms-compliance-checker</artifactId>
+		<version>1.0</version>
+	      </path>
+	      <path>
+		<groupId>com.amazonaws</groupId>
+		<artifactId>crypto-policy-compliance-checker</artifactId>
+		<version>1.0</version>
+	      </path>
+	      <path>
+		<groupId>org.checkerframework</groupId>
+		<artifactId>checker-qual</artifactId>
+		<version>2.5.8</version>
+	      </path>
+	    </annotationProcessorPaths>
+	    <annotationProcessors>
+	      <!-- Add all the checkers you want to enable here -->
+	      <annotationProcessor>com.amazon.checkerframework.compliance.kms.ComplianceChecker,com.amazon.checkerframework.cryptopolicy.CryptoPolicyComplianceChecker</annotationProcessor>
+	    </annotationProcessors>
           </configuration>
         </plugin>
         <plugin>

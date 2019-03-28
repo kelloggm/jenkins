@@ -16,6 +16,7 @@ import java.io.IOException;
 /**
  * @author Kohsuke Kawaguchi
  */
+@SuppressWarnings("compliance") // FALSE POSITIVE: test code uses artificial 128-bit AES key
 public class ConnectionTest {
 
     Throwable e;

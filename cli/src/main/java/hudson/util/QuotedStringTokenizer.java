@@ -52,6 +52,7 @@ import java.util.ArrayList;
  * @see java.util.StringTokenizer
  * @author Greg Wilkins (gregw)
  */
+@SuppressWarnings({"value","compliance"}) // FALSE POSITIVE: this class has nothing to do with encryption, but overrides methods from the JDK that have Value Checker annotations. However, the contract on those methods isn't easily expressible, so it's easier to just suppress the warning.
 public class QuotedStringTokenizer
     extends StringTokenizer
 {
